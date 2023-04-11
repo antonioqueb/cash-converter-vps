@@ -1,0 +1,25 @@
+version: '3'
+services:
+  app:
+    build: 
+      context: ./cash-converter
+    working_dir: /appcash/
+    ports:
+     - "7001:7001"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - cashconverter_static_volume:/appcash/dist/
+
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - cashconverter_static_volume:/cash-converter-dist/
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
+
+volumes:
+  cashconverter_static_volume:
